@@ -1,0 +1,26 @@
+.TH MiniShell 1 "19 August 2024" "Holberton School" "Simple Shell"
+
+.SH NAME
+MiniShell \- terminal like program
+
+.SH SYNOPSIS
+How to use the program
+
+.SH DESCRIPTION
+Description of the whole program of minishell
+interactive and non interactive
+
+.SH OPTIONS
+Options of the command
+
+.SH EXAMPLE
+Some examples on interactive and non interactive and some errors that you can have.
+
+.SH SEE ALSO
+The commands used for the minishell program
+
+.SH BUGS
+If there are any bugs
+
+.SH AUTHORS
+Gabriel Rivera and Adrian Satiango.
