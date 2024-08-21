@@ -18,5 +18,9 @@ extern char **environ;
 
 void prompt(void);
 size_t _strcspn(const char *s, const char *accept);
+char *readCommand();
+char **strTokens(char *command);
+int executeCommand(char **array);
+int check_exit(char *command);
 
 #endif
