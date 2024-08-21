@@ -10,23 +10,50 @@
 
 int main(int ac, char **argv)
 {
-	char *command = NULL, *av[2];
-	int status;
+	char *command = NULL, *av[2], *token;
+	int status, i = 0;
 	size_t n = 0;
+	ssize_t nread;
 	pid_t pid;
 	(void)ac;
 
 	while (1)
 	{
-		prompt();
 
-		getline(&command, &n, stdin);
+		if (isatty(STDIN_FILENO))
+		{
+			prompt();
+		}
+
+		nread = getline(&command, &n, stdin);
 		command[strcspn(command, "\n")] = '\0';
+
+		if (nread == -1)
+		{
+			perror("Exiting shell");
+			free(command);
+			exit(0);
+		}
+		
+		if (strcmp(command, "exit") == 0)
+		{
+			free(command);
+			exit(0);
+		}
 
 		if (command[0] == '\0')
 		{
 			continue;
 		}
+
+		token = strtok(command, " \n");
+		av[0] = malloc(sizeof(char *) * 1024);
+		while (token != NULL)
+		{
+			av[i++] = token;
+			token = strtok(NULL, " \n");
+		}
+		av[i] = NULL;
 
 		pid = fork();
 		if (pid < 0)
@@ -35,17 +62,15 @@ int main(int ac, char **argv)
 		}
 		else if (pid == 0)
 		{
-			av[0] = command;
-			av[1] = NULL;
-			if (execve(command, av, NULL) == -1)
+			if (execve(av[0], av, NULL) == -1)
 			{
-				fprintf(stderr, "%s: 1: %s: not found\n ", argv[0], command);
+				fprintf(stderr, "%s: 1: %s: not found\n ", argv[0], av[0]);
 				exit(1);
 			}
 		}
 		else
 		{
-			waitpid(pid, &status, 0);
+			wait(&status);
 		}
 	}
 	free(command);
