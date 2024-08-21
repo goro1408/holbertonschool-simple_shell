@@ -26,7 +26,7 @@ int main(int ac, char **argv)
 		}
 
 		nread = getline(&command, &n, stdin);
-		command[strcspn(command, "\n")] = '\0';
+		command[_strcspn(command, "\n")] = '\0';
 
 		if (nread == -1)
 		{

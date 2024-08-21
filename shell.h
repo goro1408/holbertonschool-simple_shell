@@ -17,5 +17,6 @@ extern char **environ;
 /* ======= PROTOTYPES ======= */
 
 void prompt(void);
+size_t _strcspn(const char *s, const char *accept);
 
 #endif
