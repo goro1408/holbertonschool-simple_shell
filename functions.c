@@ -39,6 +39,7 @@ char **parse_input(char *buf)
     if (array == NULL)
     {
         perror("Failed to allocate memory");
+		free
         exit(1);
     }
 
