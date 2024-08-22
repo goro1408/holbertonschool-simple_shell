@@ -9,7 +9,6 @@ void prompt(void)
 	if (isatty(STDIN_FILENO))
 	{
 		printf("#cisfun$ ");
-		fflush(stdout);
 	}
 }
 
@@ -73,7 +72,7 @@ char *readCommand()
 char **strTokens(char *command)
 {
 	char **array;
-	char *delim = " \n";
+	char *delim = " \n\t\r";
 	char *token;
 	int i;
 
@@ -97,14 +96,14 @@ char **strTokens(char *command)
  * Return: The exist status of the child process, or -1 if an error occurs.
  */
 
-int executeCommand(char **array)
+int executeCommand(char **array, char **argv)
 {
 	int status;
 	pid_t pid = fork();
 
 	if (pid < 0)
 	{
-		perror("Failed to create");
+		fprintf(stderr, "%s\n", argv[0]);		
 		exit(41);
 	}
 
@@ -112,7 +111,7 @@ int executeCommand(char **array)
 	{
 		if (execve(array[0], array, NULL) == -1)
 		{
-			perror("Failed to execute");
+			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], array[0]);
 			exit(97);
 		}
 	}

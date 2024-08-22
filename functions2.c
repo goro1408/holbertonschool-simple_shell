@@ -4,7 +4,7 @@
  * check_exit - Checks if the command is "exit" and terminates the program
  *              if it is.
  * @command: The command to check.
- * 
+ *
  * Return: 1 if command is "exit", 0 if the command is exit.
  */
 int check_exit(char *command)
@@ -83,6 +83,29 @@ char *get_file_loc(char *path, char *file_name)
 }
 
 /**
+ * _getenv - Function that works just like getenv
+ * @name: The name of the environment.
+ *
+ * Return: 0
+ */
+
+char *_getenv(const char *name)
+{
+	extern char **environ;
+        char **env = environ;
+
+	for (; *env != NULL; ++env)
+	{
+		if (strncmp(*env, name, strlen(name)) == 0 && (*env)[strlen(name)] == '=')
+		{
+			return (*env + strlen(name) + 1);
+		}
+	}
+
+	return NULL;
+}
+
+/**
   * get_file_path - Get's the full path of the file
   * @file_name: The name of the file.
   * 
@@ -90,7 +113,7 @@ char *get_file_loc(char *path, char *file_name)
   */
  char *get_file_path(char *file_name)
  {
-        char *path = getenv("PATH");
+        char *path = _getenv("PATH");
         char *full_path;
 
         if (isAbsolutePath(file_name) && access(file_name, X_OK) == 0)
@@ -108,11 +131,8 @@ char *get_file_loc(char *path, char *file_name)
 
         if (full_path == NULL)
         {
-                fprintf(stderr, "%s\n", file_name);
-                fprintf(stderr, ": command not found\n");
                 return (NULL);
         }
 
         return (full_path);
 }
- 
