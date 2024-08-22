@@ -39,7 +39,7 @@ char **parse_input(char *buf)
     if (array == NULL)
     {
         perror("Failed to allocate memory");
-		free
+		free(buf);
         exit(1);
     }
 
@@ -69,6 +69,7 @@ void execute_command(char **args, char *path)
     if (child_pid == -1)
     {
         fprintf(stderr, "%s\n", args[0]);
+		free(args);
         exit(41);
     }
 
@@ -79,6 +80,7 @@ void execute_command(char **args, char *path)
 			if (isatty(STDIN_FILENO))
 			{
 				perror(args[0]);
+				free(args);
 				exit(97);
 			}
 
