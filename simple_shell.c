@@ -8,25 +8,35 @@
  */
 int main(int argc, char **argv)
 {
-	int status = 1;
-	int is_interactive = isatty(STDIN_FILENO);
-	char *command = NULL;
-	char **array;
+    char *command = NULL;
+    char *path;
+    char **array;
+	size_t n = 0;
+	ssize_t nread;
+
+
 	(void)argc;
-	(void)argv;
+    (void)argv;
 
-
-	while (status)
-	{
-		if (is_interactive)
+    while (1)
+    {
+        prompt();
+		
+		nread = getline(&command, &n, stdin);
+		command[_strcspn(command, "\n")] = '\0';
+		if (nread == -1)
 		{
-			prompt();
+			exit(0);
 		}
-			command = readCommand();
-			array = strTokens(command);
-			check_exit(command);
-			executeCommand(array);
-	}
-	free(command);
-	return (0);
+		
+		array = strTokens(command);
+        path = get_file_path(array[0]);
+		check_exit(command);
+        executeCommand(array);
+    }
+
+    free(path);
+    free(command);
+    return 0;
 }
+
