@@ -31,28 +31,28 @@ size_t _strcspn(const char *s, const char *accept)
  */
 char **parse_input(char *buf)
 {
-    char *token;
-    char **array;
-    size_t i = 0;
+	char *token;
+	char **array;
+	size_t i = 0;
 
-    array = malloc(sizeof(char *) * 1024);
-    if (array == NULL)
-    {
-        perror("Failed to allocate memory");
+	array = malloc(sizeof(char *) * 1024);
+	if (array == NULL)
+	{
+		perror("Failed to allocate memory");
 		free(buf);
-        exit(1);
-    }
+		exit(1);
+	}
 
-    token = strtok(buf, " \n");
-    while (token)
-    {
-        array[i] = token;
-        token = strtok(NULL, " \n");
-        i++;
-    }
-    array[i] = NULL;
+	token = strtok(buf, " \n");
+	while (token)
+	{
+		array[i] = token;
+		token = strtok(NULL, " \n");
+		i++;
+	}
+	array[i] = NULL;
 
-    return (array);
+	return (array);
 }
 
 /**
@@ -62,21 +62,21 @@ char **parse_input(char *buf)
  */
 void execute_command(char **args, char *path)
 {
-    pid_t child_pid;
-    int status;
+	pid_t child_pid;
+	int status;
 
-    child_pid = fork();
-    if (child_pid == -1)
-    {
-        fprintf(stderr, "%s\n", args[0]);
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		fprintf(stderr, "%s\n", args[0]);
 		free(args);
-        exit(41);
-    }
+		exit(41);
+	}
 
-    else if (child_pid == 0)
-    {
-        if (execve(path, args, NULL) == -1)
-        {
+	else if (child_pid == 0)
+	{
+		if (execve(path, args, NULL) == -1)
+		{
 			if (isatty(STDIN_FILENO))
 			{
 				perror(args[0]);
@@ -88,13 +88,12 @@ void execute_command(char **args, char *path)
 			{
 				exit(EXIT_FAILURE);
 			}
-			
-        }
-    }
-    else
-    {
-        wait(&status);
-    }
+		}
+	}
+	else
+	{
+		wait(&status);
+	}
 }
 
 /**
@@ -102,23 +101,23 @@ void execute_command(char **args, char *path)
  */
 void handle_input(void)
 {
-    char *buf = NULL;
-    size_t count = 0;
-    ssize_t nread;
-    char **args;
-    char *path;
+	char *buf = NULL;
+	size_t count = 0;
+	ssize_t nread;
+	char **args;
+	char *path;
 
-    if (isatty(STDIN_FILENO))
-    {
-        printf("#cisfun$ ");
-    }
+	if (isatty(STDIN_FILENO))
+	{
+		printf("#cisfun$ ");
+	}
 
-    nread = getline(&buf, &count, stdin);
-    if (nread == -1)
-    {
-        free(buf);
-        exit(0);
-    }
+	nread = getline(&buf, &count, stdin);
+	if (nread == -1)
+	{
+		free(buf);
+		exit(0);
+	}
 	args = parse_input(buf);
 
 	if (strcmp(args[0], "exit") == 0)
@@ -127,10 +126,10 @@ void handle_input(void)
 		exit(0);
 	}
 
-    path = get_file_path(args[0]);
-    execute_command(args, path);
+	path = get_file_path(args[0]);
+	execute_command(args, path);
 
-    free(path);
-    free(buf);
-    free(args);
+	free(path);
+	free(buf);
+	free(args);
 }
