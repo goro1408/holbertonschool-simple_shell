@@ -27,15 +27,21 @@ int main(int argc, char **argv)
 		{
 			exit(0);
 		}
+
+		if (strcmp(command, "exit") == 0)
+		{
+			free(command);
+			exit(0);
+		}
 		
 		array = strTokens(command);
         path = get_file_path(array[0]);
 		check_exit(command);
-        executeCommand(array, argv);
-    }
+		executeCommand(array, argv);
+	}
 
-    free(path);
-    free(command);
-    return 0;
+	free(path);
+	free(command);
+	return (0);
 }
 
