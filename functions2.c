@@ -13,9 +13,9 @@ int check_exit(char *command)
     {
         free(command);
         exit(0);
-        return 1;
+        return (1);
     }
-    return 0;
+    return (0);
 }
 
 
@@ -102,7 +102,7 @@ char *_getenv(const char *name)
 		}
 	}
 
-	return NULL;
+	return (NULL);
 }
 
 /**

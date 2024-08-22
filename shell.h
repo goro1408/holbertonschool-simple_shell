@@ -19,12 +19,10 @@ extern char **environ;
 /* ======= PROTOTYPES ======= */
 
 /* ======= FUNCTIONS 1 ======= */
-void prompt(void);
 size_t _strcspn(const char *s, const char *accept);
-char *readCommand();
-char **strTokens(char *command);
-int executeCommand(char **array, char **argv);
-
+void handle_input(void);
+char **parse_input(char *buf);
+void execute_command(char **args, char *path);
 
 /* ======= FUNCTIONS 2 ======= */
 int check_exit(char *command);

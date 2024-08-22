@@ -1,18 +1,6 @@
 #include "shell.h"
 
 /**
- * prompt - gives you the prompt character for simple shell
- */
-
-void prompt(void)
-{
-	if (isatty(STDIN_FILENO))
-	{
-		printf("#cisfun$ ");
-	}
-}
-
-/**
  * _strcspn - Copy of strcspn function of the string library
  * @s: The string to search
  * @accept: The characters to avoid
@@ -37,93 +25,109 @@ size_t _strcspn(const char *s, const char *accept)
 }
 
 /**
- * readCommand - Reads a line from the stdin.
- * @command: Pointer the command
- * @count: Pointer to the count
- *
- * Return: The number of bytes read.
+ * parse_input - Tokenizes the input buffer into an array of arguments
+ * @buf: Input buffer
+ * Return: Array of arguments
  */
-
-char *readCommand()
+char **parse_input(char *buf)
 {
-	char *command = NULL;
-	size_t count = 0;
-	ssize_t nread;
+    char *token;
+    char **array;
+    size_t i = 0;
 
-	nread = getline(&command, &count, stdin);
-	command[_strcspn(command, "\n")] = '\0';
+    array = malloc(sizeof(char *) * 1024);
+    if (array == NULL)
+    {
+        perror("Failed to allocate memory");
+        exit(1);
+    }
 
-	if (nread == -1)
-	{
-		perror("Exiting Shell:");
-		free(command);
-		exit(0);
-	}
+    token = strtok(buf, " \n");
+    while (token)
+    {
+        array[i] = token;
+        token = strtok(NULL, " \n");
+        i++;
+    }
+    array[i] = NULL;
 
-	return (command);
-}
-/**
- * strTokens - Function to tokenize a string based on a delimeter.
- * @command: The string to tokenize
- * @delim: The delimeter to use
- *
- * Return: A pointer
- */
-char **strTokens(char *command)
-{
-	char **array;
-	char *delim = " \n\t\r";
-	char *token;
-	int i;
-
-	token = strtok(command, delim);
-	array = malloc(sizeof(char*) * 1024);
-	i = 0;
-	while (token != NULL)
-	{
-		array[i] = strdup(token);
-		token = strtok(NULL, delim);
-		i++;
-	}
-	array[i] = NULL;
-	return (array);
+    return (array);
 }
 
 /**
- * executeCommand - Executes a command in a child process.
- * @array: An array of strings containing the command and its arguments.
- *
- * Return: The exist status of the child process, or -1 if an error occurs.
+ * execute_command - Executes a command by forking a child process
+ * @args: Array of arguments
+ * @path: Path to the executable
  */
-
-int executeCommand(char **array, char **argv)
+void execute_command(char **args, char *path)
 {
-	int status;
-	pid_t pid = fork();
+    pid_t child_pid;
+    int status;
 
-	if (pid < 0)
-	{
-		fprintf(stderr, "%s\n", argv[0]);
-		exit(41);
-	}
+    child_pid = fork();
+    if (child_pid == -1)
+    {
+        fprintf(stderr, "%s\n", args[0]);
+        exit(41);
+    }
 
-	else if (pid == 0)
-	{
-		if (execve(array[0], array, NULL) == -1)
-		{
+    else if (child_pid == 0)
+    {
+        if (execve(path, args, NULL) == -1)
+        {
 			if (isatty(STDIN_FILENO))
 			{
-				perror(argv[0]);
+				perror(args[0]);
+				exit(97);
 			}
+
 			else
 			{
 				exit(EXIT_FAILURE);
 			}
-		}
-	}
-	else
+			
+        }
+    }
+    else
+    {
+        wait(&status);
+    }
+}
+
+/**
+ * handle_input - Handles user input, parses it, and executes the command
+ */
+void handle_input(void)
+{
+    char *buf = NULL;
+    size_t count = 0;
+    ssize_t nread;
+    char **args;
+    char *path;
+
+    if (isatty(STDIN_FILENO))
+    {
+        printf("#cisfun$ ");
+    }
+
+    nread = getline(&buf, &count, stdin);
+    if (nread == -1)
+    {
+        free(buf);
+        exit(0);
+    }
+	args = parse_input(buf);
+
+	if (strcmp(args[0], "exit") == 0)
 	{
-		wait(&status);
+		free(buf);
+		exit(0);
 	}
-	return (0);
+
+    path = get_file_path(args[0]);
+    execute_command(args, path);
+
+    free(path);
+    free(buf);
+    free(args);
 }
