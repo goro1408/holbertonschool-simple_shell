@@ -103,7 +103,7 @@ int executeCommand(char **array, char **argv)
 
 	if (pid < 0)
 	{
-		fprintf(stderr, "%s\n", argv[0]);		
+		fprintf(stderr, "%s\n", argv[0]);
 		exit(41);
 	}
 
@@ -111,8 +111,14 @@ int executeCommand(char **array, char **argv)
 	{
 		if (execve(array[0], array, NULL) == -1)
 		{
-			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], array[0]);
-			exit(97);
+			if (isatty(STDIN_FILENO))
+			{
+				perror(argv[0]);
+			}
+			else
+			{
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 	else
