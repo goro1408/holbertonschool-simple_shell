@@ -120,16 +120,37 @@ void handle_input(void)
 	}
 	args = parse_input(buf);
 
+	path = get_file_path(args[0]);
+
 	if (strcmp(args[0], "exit") == 0)
 	{
 		free(buf);
 		exit(0);
 	}
 
-	path = get_file_path(args[0]);
+	if (strcmp(args[0], "env") == 0)
+	{
+		handle_env();
+		free(buf);
+		free(args);
+	}
 	execute_command(args, path);
 
 	free(path);
 	free(buf);
 	free(args);
+}
+
+/**
+ * handle_env - Function that handles the environment
+ */
+void handle_env(void)
+{
+	char **env = environ;
+
+	while (*env)
+	{
+		printf("%s\n", *env);
+		env++;
+	}
 }

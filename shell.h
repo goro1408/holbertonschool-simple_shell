@@ -23,6 +23,7 @@ size_t _strcspn(const char *s, const char *accept);
 void handle_input(void);
 char **parse_input(char *buf);
 void execute_command(char **args, char *path);
+void handle_env(void);
 
 /* ======= FUNCTIONS 2 ======= */
 int check_exit(char *command);
