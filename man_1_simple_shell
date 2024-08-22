@@ -1,26 +1,34 @@
-.TH MiniShell 1 "19 August 2024" "Holberton School" "Simple Shell"
+.TH Simple_Shell 1 "19 August 2024" "Holberton School" "Simple Shell"
 
 .SH NAME
-MiniShell \- terminal like program
+Simple_Shell \- a simple command-line shell.
 
 .SH SYNOPSIS
-How to use the program
+.B simple_shell
 
 .SH DESCRIPTION
-Description of the whole program of minishell
-interactive and non interactive
+.B
+is a basic command-line shell that provides an interactive prompt for executing commands. It supports a built-in
+.B env
+command that prints the current enviroment variables.
+.B exit
+command that exits the simple_shell when you type "exit" into the simple_shell.
 
-.SH OPTIONS
-Options of the command
 
-.SH EXAMPLE
-Some examples on interactive and non interactive and some errors that you can have.
+.SH COMMANDS
+.TP
+.B env
+Prints the current environment variables.
+.B exit
+Exits the simple_shell program.
 
-.SH SEE ALSO
-The commands used for the minishell program
-
-.SH BUGS
-If there are any bugs
-
+.SH USAGE
+Run the shell using the following command:
+.PP
+.B ./hsh
+.PP
+At the prompt, enter commands to execute them. To print environment variables, type:
+.PP
+.B env
 .SH AUTHORS
-Gabriel Rivera and Adrian Satiango.
+Adrian Santigo and Gabriel Rivera
