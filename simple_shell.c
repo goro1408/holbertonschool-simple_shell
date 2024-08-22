@@ -16,7 +16,6 @@ int main(int argc, char **argv)
 
 
 	(void)argc;
-    (void)argv;
 
     while (1)
     {
@@ -32,7 +31,7 @@ int main(int argc, char **argv)
 		array = strTokens(command);
         path = get_file_path(array[0]);
 		check_exit(command);
-        executeCommand(array);
+        executeCommand(array, argv);
     }
 
     free(path);
