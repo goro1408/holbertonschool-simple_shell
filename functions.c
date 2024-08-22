@@ -6,8 +6,11 @@
 
 void prompt(void)
 {
-	printf("#cisfun$ ");
-	fflush(stdout);
+	if (isatty(STDIN_FILENO))
+	{
+		printf("#cisfun$ ");
+		fflush(stdout);
+	}
 }
 
 /**
@@ -35,9 +38,11 @@ size_t _strcspn(const char *s, const char *accept)
 }
 
 /**
- * readCommand - function that gets input from the user.
+ * readCommand - Reads a line from the stdin.
+ * @command: Pointer the command
+ * @count: Pointer to the count
  *
- * Return: The command.
+ * Return: The number of bytes read.
  */
 
 char *readCommand()
@@ -51,8 +56,9 @@ char *readCommand()
 
 	if (nread == -1)
 	{
+		perror("Exiting Shell:");
 		free(command);
-		exit(1);
+		exit(0);
 	}
 
 	return (command);
@@ -98,7 +104,7 @@ int executeCommand(char **array)
 
 	if (pid < 0)
 	{
-		perror("Failed to create.");
+		perror("Failed to create");
 		exit(41);
 	}
 

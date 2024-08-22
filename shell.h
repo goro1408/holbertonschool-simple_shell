@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 /* ======= GLOBAL VARIABLES ======= */
 
@@ -16,11 +18,18 @@ extern char **environ;
 
 /* ======= PROTOTYPES ======= */
 
+/* ======= FUNCTIONS 1 ======= */
 void prompt(void);
 size_t _strcspn(const char *s, const char *accept);
 char *readCommand();
 char **strTokens(char *command);
 int executeCommand(char **array);
+
+
+/* ======= FUNCTIONS 2 ======= */
 int check_exit(char *command);
+int isAbsolutePath(const char *str);
+char *get_file_loc(char *path, char *file_name);
+char *get_file_path(char *file_name);
 
 #endif
