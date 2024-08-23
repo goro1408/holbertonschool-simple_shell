@@ -1,51 +1,60 @@
 .TH SIMPLE_SHELL 1 "August 2024" "1.0" "Simple Shell Manual"
 .SH NAME
-simple_shell \- A basic command-line interpreter.
+simple_shell \- A basic command-line interpreter .
 
 .SH SYNOPSIS
-.B simple_shell
+.B simple_shell [command_file [argument ...]] [-al]
 
 .SH DESCRIPTION
 .B simple_shell
-is a basic command-line interpreter that provides a user interface to execute commands. It handles user input, parses commands, and executes them by forking child processes.
+is a command-line interpreter designed to facilitate interaction between the user and the operating system. It provides a simple interface for executing system commands and managing processes, similar to other Unix-like shells.
+
+.PP
+When launched,
+.B simple_shell
+operates in an interactive mode, presenting the user with a prompt where commands can be entered. The shell reads each command line input, tokenizes it into executable commands and arguments, and then interprets the input to determine the appropriate action. This can involve running built-in commands, executing external binaries, or managing shell-specific operations such as navigating directories or setting environment variables.
+
+.PP
+The shell supports the execution of any standard Unix command available on the system, as well as custom scripts and executables, provided they are in the user's `PATH`. When a command is issued, the shell creates a child process to execute the command, ensuring that the shell itself remains responsive to further input.
+
+.PP
+Key features of
+.B simple_shell
+include:
+.TP
+\(bu Handling of absolute and relative paths to execute commands, ensuring flexibility in command execution.
+.TP
+\(bu Environment variable support, enabling users to access and manipulate environment settings dynamically within the shell session.
+.TP
+\(bu Basic error handling and reporting, which informs the user of issues like command not found, permission denied, and invalid input.
+.TP
+\(bu An `exit` command that cleanly terminates the shell session, freeing any allocated resources and returning control to the parent process or terminal.
 
 .SH USAGE
 .TP
 .B simple_shell
 Launches the shell in an interactive mode where it waits for user commands indefinitely.
+.B Interactive mode.
+To enter the simple shell use the command ./hsh and type and command.
+.B Non Interactive mode
+To use the non interactive mode in you shell enter echo "command you want to use" | ./hsh
 
 .SH COMMANDS
 .PP
 The following commands are supported:
+ls
+pwd
+cat
+echo
+exit
+env
+
 .TP
-.B exit
+.B exit or CTRL+d
 Exits the shell program.
 .TP
 .B any other command
-Any valid command available on the system is executed.
-
-.SH FUNCTIONS
-.B simple_shell
-uses the following key functions internally:
-
-.TP
-.B handle_input
-Captures user input, parses it, and determines the appropriate command to execute.
-.TP
-.B parse_input
-Tokenizes user input into command arguments.
-.TP
-.B execute_command
-Executes the parsed command using fork and execve.
-.TP
-.B check_exit
-Checks if the entered command is `exit` and terminates the shell if true.
-.TP
-.B _getenv
-Retrieves the value of environment variables.
-.TP
-.B get_file_loc
-Determines the full path of an executable file.
+Any valid command available on the PATH file can be executed.
 
 .SH RETURN VALUE
 .B simple_shell
@@ -53,8 +62,28 @@ always returns 0 unless it encounters an unrecoverable error.
 
 .SH EXAMPLES
 .TP
-.B simple_shell
-Starts the shell. You can type commands like `ls`, `pwd`, etc., followed by `exit` to terminate.
+.B Interactive mode
+enter the shell with "./hsh"
+.TP
+#cisfun$ echo Hello
+.TP
+Hello
+.TP
+#cisfun$ exit
+.TP
+julien@ubuntu:~/shell$
+
+.TP
+.B Non Interactive mode
+julien@ubuntu:~/shell$ echo "ls" | ./hsh
+.TP
+AUTHORS     functions.c    man_1_simple_shell    shell.h
+README.md   functions2.c   hsh
+.TP
+julien@ubuntu:~/shell$
+
+.SH BUGS
+Watch out for memory leaks when using the env command, for any more bugs contact <AUTHORS>.
 
 .SH AUTHORS
 Adrian Santiago and Gabriel Rivera
