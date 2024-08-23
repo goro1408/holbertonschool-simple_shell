@@ -128,11 +128,9 @@ void handle_input(void)
 		exit(0);
 	}
 
-	if (strcmp(args[0], "env") == 0)
+	else if (strcmp(args[0], "env") == 0)
 	{
 		handle_env();
-		free(buf);
-		free(args);
 	}
 	execute_command(args, path);
 
@@ -147,11 +145,13 @@ void handle_input(void)
 void handle_env(void)
 {
 	char **env = environ;
+	unsigned int i;
 
-	while (*env)
+	i = 0;
+	while (env[i] != NULL)
 	{
-		printf("%s\n", *env);
-		env++;
+		printf("%s\n", env[i]);
+		i++;
 	}
-	free(env);
 }
+
