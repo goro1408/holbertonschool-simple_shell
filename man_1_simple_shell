@@ -1,34 +1,60 @@
-.TH Simple_Shell 1 "19 August 2024" "Holberton School" "Simple Shell"
-
+.TH SIMPLE_SHELL 1 "August 2024" "1.0" "Simple Shell Manual"
 .SH NAME
-Simple_Shell \- a simple command-line shell.
+simple_shell \- A basic command-line interpreter.
 
 .SH SYNOPSIS
 .B simple_shell
 
 .SH DESCRIPTION
-.B
-is a basic command-line shell that provides an interactive prompt for executing commands. It supports a built-in
-.B env
-command that prints the current enviroment variables.
-.B exit
-command that exits the simple_shell when you type "exit" into the simple_shell.
-
-
-.SH COMMANDS
-.TP
-.B env
-Prints the current environment variables.
-.B exit
-Exits the simple_shell program.
+.B simple_shell
+is a basic command-line interpreter that provides a user interface to execute commands. It handles user input, parses commands, and executes them by forking child processes.
 
 .SH USAGE
-Run the shell using the following command:
+.TP
+.B simple_shell
+Launches the shell in an interactive mode where it waits for user commands indefinitely.
+
+.SH COMMANDS
 .PP
-.B ./hsh
-.PP
-At the prompt, enter commands to execute them. To print environment variables, type:
-.PP
-.B env
+The following commands are supported:
+.TP
+.B exit
+Exits the shell program.
+.TP
+.B any other command
+Any valid command available on the system is executed.
+
+.SH FUNCTIONS
+.B simple_shell
+uses the following key functions internally:
+
+.TP
+.B handle_input
+Captures user input, parses it, and determines the appropriate command to execute.
+.TP
+.B parse_input
+Tokenizes user input into command arguments.
+.TP
+.B execute_command
+Executes the parsed command using fork and execve.
+.TP
+.B check_exit
+Checks if the entered command is `exit` and terminates the shell if true.
+.TP
+.B _getenv
+Retrieves the value of environment variables.
+.TP
+.B get_file_loc
+Determines the full path of an executable file.
+
+.SH RETURN VALUE
+.B simple_shell
+always returns 0 unless it encounters an unrecoverable error.
+
+.SH EXAMPLES
+.TP
+.B simple_shell
+Starts the shell. You can type commands like `ls`, `pwd`, etc., followed by `exit` to terminate.
+
 .SH AUTHORS
-Adrian Santigo and Gabriel Rivera
+Adrian Santiago and Gabriel Rivera

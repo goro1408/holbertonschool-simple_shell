@@ -43,11 +43,11 @@ char **parse_input(char *buf)
 		exit(1);
 	}
 
-	token = strtok(buf, " \n");
+	token = strtok(buf, " \n\t\r");
 	while (token)
 	{
 		array[i] = token;
-		token = strtok(NULL, " \n");
+		token = strtok(NULL, " \n\t\r");
 		i++;
 	}
 	array[i] = NULL;
@@ -153,4 +153,5 @@ void handle_env(void)
 		printf("%s\n", *env);
 		env++;
 	}
+	free(env);
 }
