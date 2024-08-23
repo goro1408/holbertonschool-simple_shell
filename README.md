@@ -80,4 +80,4 @@ $
 
 - [@Sigidibau](https://www.github.com/sigidibau)
 - [@Gabyriv](https://github.com/Gabyriv)
->>>>>>> e455a38 (complete readme)
+
