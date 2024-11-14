@@ -47,5 +47,4 @@ $
 ```
 ## Authors
 
-- [@Sigidibau](https://www.github.com/sigidibau)
-- [@Gabyriv](https://github.com/Gabyriv)
+- [@goro1408](https://github.com/goro1408)
