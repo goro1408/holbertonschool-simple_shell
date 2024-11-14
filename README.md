@@ -18,7 +18,7 @@ The only difference is when you print an error, the name of the program must be 
 Download the repo
 
 ```bash
-https://github.com/Gabyriv/holbertonschool-simple_shell.git
+https://github.com/goro1408/simple_shell.git
 ```
 ## Compilation
 ```bash
