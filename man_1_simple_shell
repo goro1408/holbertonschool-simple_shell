@@ -85,5 +85,5 @@ julien@ubuntu:~/shell$
 .SH BUGS
 Watch out for memory leaks when using the env command, for any more bugs contact <AUTHORS>.
 
-.SH AUTHORS
+.SH AUTHOR
 Orlando Del Valle Sanchez
